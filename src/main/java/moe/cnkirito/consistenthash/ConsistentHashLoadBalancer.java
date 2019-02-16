@@ -9,13 +9,14 @@ import java.util.TreeMap;
  * @author daofeng.xjf
  * @date 2019/2/15
  */
-public class ConsistentHashLoadBalancer {
+public class ConsistentHashLoadBalancer implements LoadBalancer{
 
-    private HashStrategy hashStrategy = new JdkHashCodeStrategy();
+    private HashStrategy hashStrategy = new MurmurHashStrategy();
 
     private final static int VIRTUAL_NODE_SIZE = 10;
     private final static String VIRTUAL_NODE_SUFFIX = "&&";
 
+    @Override
     public Server select(List<Server> servers, Invocation invocation) {
         int invocationHashCode = hashStrategy.getHashCode(invocation.getHashKey());
         TreeMap<Integer, Server> ring = buildConsistentHashRing(servers);

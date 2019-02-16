@@ -5,6 +5,13 @@ package moe.cnkirito.consistenthash;
  * @date 2019/2/15
  */
 public class Invocation {
+    public Invocation() {
+    }
+
+    public Invocation(String hashKey) {
+        this.hashKey = hashKey;
+    }
+
     private String hashKey;
 
     public String getHashKey() {
