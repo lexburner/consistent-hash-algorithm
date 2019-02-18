@@ -20,9 +20,9 @@ public class LoadBalanceTest {
     public void testDistribution() {
         List<Server> servers = new ArrayList<>();
         for (String ip : ips) {
-            servers.add(new Server(ip));
+            servers.add(new Server(ip+":8080"));
         }
-        LoadBalancer chloadBalance = new KetamaConsistentHashLoadBalancer();
+        LoadBalancer chloadBalance = new ConsistentHashLoadBalancer();
         // 构造 10000 随机请求
         List<Invocation> invocations = new ArrayList<>();
         for (int i = 0; i < 10000; i++) {
@@ -30,13 +30,15 @@ public class LoadBalanceTest {
         }
         // 统计分布
         AtomicLongMap<Server> atomicLongMap = AtomicLongMap.create();
+        for (Server server : servers) {
+            atomicLongMap.put(server, 0);
+        }
         for (Invocation invocation : invocations) {
             Server selectedServer = chloadBalance.select(servers, invocation);
             atomicLongMap.getAndIncrement(selectedServer);
         }
         System.out.println(StatisticsUtil.variance(atomicLongMap.asMap().values().toArray(new Long[]{})));
         System.out.println(StatisticsUtil.standardDeviation(atomicLongMap.asMap().values().toArray(new Long[]{})));
-
     }
 
     /**
@@ -49,7 +51,7 @@ public class LoadBalanceTest {
             servers.add(new Server(ip));
         }
         List<Server> serverChanged = servers.subList(0, 80);
-        LoadBalancer chloadBalance = new KetamaConsistentHashLoadBalancer();
+        LoadBalancer chloadBalance = new ConsistentHashLoadBalancer();
         // 构造 10000 随机请求
         List<Invocation> invocations = new ArrayList<>();
         for (int i = 0; i < 10000; i++) {

@@ -11,7 +11,7 @@ import java.util.TreeMap;
  */
 public class ConsistentHashLoadBalancer implements LoadBalancer{
 
-    private HashStrategy hashStrategy = new MurmurHashStrategy();
+    private HashStrategy hashStrategy = new FnvHashStrategy();
 
     private final static int VIRTUAL_NODE_SIZE = 10;
     private final static String VIRTUAL_NODE_SUFFIX = "&&";
