@@ -1,4 +1,4 @@
-package moe.cnkirito.consistenthash;
+package moe.cnkirito.consistenthash.bo;
 
 /**
  * @author daofeng.xjf
@@ -6,14 +6,13 @@ package moe.cnkirito.consistenthash;
  */
 public class Server {
 
-    public Server() {
-    }
+    private String url;
+
+    public Server() {}
 
     public Server(String url) {
         this.url = url;
     }
-
-    private String url;
 
     public String getUrl() {
         return url;

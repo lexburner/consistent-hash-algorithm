@@ -1,6 +1,13 @@
 package moe.cnkirito.consistenthash;
 
 import com.google.common.util.concurrent.AtomicLongMap;
+import moe.cnkirito.consistenthash.bo.Invocation;
+import moe.cnkirito.consistenthash.bo.Server;
+import moe.cnkirito.consistenthash.load.balancer.ConsistentHashLoadBalancer;
+import moe.cnkirito.consistenthash.load.balancer.ConsistentHashRing;
+import moe.cnkirito.consistenthash.strategy.FnvHashStrategy;
+import moe.cnkirito.consistenthash.util.StatisticsUtil;
+import org.junit.Assert;
 import org.junit.Test;
 
 import java.util.ArrayList;
@@ -22,7 +29,7 @@ public class LoadBalanceTest {
         for (String ip : ips) {
             servers.add(new Server(ip+":8080"));
         }
-        LoadBalancer chloadBalance = new ConsistentHashLoadBalancer();
+        LoadBalanceable chloadBalance = new ConsistentHashLoadBalancer();
         // 构造 10000 随机请求
         List<Invocation> invocations = new ArrayList<>();
         for (int i = 0; i < 10000; i++) {
@@ -51,7 +58,7 @@ public class LoadBalanceTest {
             servers.add(new Server(ip));
         }
         List<Server> serverChanged = servers.subList(0, 80);
-        LoadBalancer chloadBalance = new ConsistentHashLoadBalancer();
+        LoadBalanceable chloadBalance = new ConsistentHashLoadBalancer();
         // 构造 10000 随机请求
         List<Invocation> invocations = new ArrayList<>();
         for (int i = 0; i < 10000; i++) {
@@ -170,3 +177,4 @@ public class LoadBalanceTest {
             "11.10.192.118"
     };
 }
+
