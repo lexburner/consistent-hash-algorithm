@@ -1,5 +1,6 @@
 package moe.cnkirito.consistenthash.load.balancer;
 
+import com.google.common.annotations.VisibleForTesting;
 import moe.cnkirito.consistenthash.AbstractHashStrategy;
 import moe.cnkirito.consistenthash.bo.Server;
 import moe.cnkirito.consistenthash.strategy.FnvHashStrategy;
@@ -44,15 +45,20 @@ public class ConsistentHashRing {
         return locateEntry.getValue();
     }
 
-    private ConsistentHashRing(List<Server> servers) {
+    @VisibleForTesting
+    protected ConsistentHashRing(List<Server> servers) {
         init(servers);
     }
+
+    @VisibleForTesting
+    protected ConsistentHashRing() {}
 
     private void init(List<Server> servers) {
         virtualNodeRing = buildConsistentHashRing(servers);
     }
 
-    private TreeMap<Integer, Server> buildConsistentHashRing(List<Server> servers) {
+    @VisibleForTesting
+    protected TreeMap<Integer, Server> buildConsistentHashRing(List<Server> servers) {
         TreeMap<Integer, Server> virtualNodeRing = new TreeMap<>();
         for (Server server : servers) {
             for (int i = 0; i < VIRTUAL_NODE_SIZE; i++) {
