@@ -45,20 +45,17 @@ public class ConsistentHashRing {
         return locateEntry.getValue();
     }
 
-    @VisibleForTesting
-    protected ConsistentHashRing(List<Server> servers) {
+    private ConsistentHashRing(List<Server> servers) {
         init(servers);
     }
 
-    @VisibleForTesting
-    protected ConsistentHashRing() {}
+    private ConsistentHashRing() {}
 
     private void init(List<Server> servers) {
         virtualNodeRing = buildConsistentHashRing(servers);
     }
 
-    @VisibleForTesting
-    protected TreeMap<Integer, Server> buildConsistentHashRing(List<Server> servers) {
+    private TreeMap<Integer, Server> buildConsistentHashRing(List<Server> servers) {
         TreeMap<Integer, Server> virtualNodeRing = new TreeMap<>();
         for (Server server : servers) {
             for (int i = 0; i < VIRTUAL_NODE_SIZE; i++) {
