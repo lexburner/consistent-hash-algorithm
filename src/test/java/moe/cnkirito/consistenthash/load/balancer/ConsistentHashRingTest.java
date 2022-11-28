@@ -5,11 +5,13 @@ import moe.cnkirito.consistenthash.bo.Server;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.powermock.api.mockito.PowerMockito;
 import org.powermock.core.classloader.annotations.PrepareForTest;
+import org.powermock.modules.junit4.PowerMockRunner;
 import org.powermock.reflect.Whitebox;
 
 import java.util.Arrays;
@@ -20,8 +22,10 @@ import static org.mockito.Mockito.*;
 
 /**
  * @author dailj
- * @date 2022/11/27 17:42
+ * @date 2022/11/26 14:51
  */
+// 配合@Mock注解使用
+@RunWith(PowerMockRunner.class)
 public class ConsistentHashRingTest {
     @Mock
     ConsistentHashRing instance;
