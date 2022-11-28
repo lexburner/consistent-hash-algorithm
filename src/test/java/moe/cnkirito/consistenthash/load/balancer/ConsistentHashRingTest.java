@@ -45,9 +45,12 @@ public class ConsistentHashRingTest {
         when(hashStrategy.getHashCode(anyString())).thenReturn(0);
         /// 模拟私有方法调用
         /**
+         * @Spy
+         * private ConsistentHashRing consistentHashRing = Mockito.spy(ConsistentHashRing.class);
+         *
          * PowerMockito.doReturn(new TreeMap<Integer, Server>(new HashMap<Integer, Server>() {{
          *     put(Integer.valueOf(0), new Server("url"));}}))
-         *     .when(ConsistentHashRing.class, "buildConsistentHashRing", Arrays.<Server>asList(new Server("url")));'
+         *     .when(consistentHashRing, "buildConsistentHashRing", Arrays.<Server>asList(new Server("url")));
          */
 
         ConsistentHashRing result = ConsistentHashRing.getInstance(Arrays.<Server>asList(new Server("url")));
