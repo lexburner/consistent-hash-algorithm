@@ -1,23 +1,15 @@
-package moe.cnkirito.consistenthash;
+package moe.cnkirito.consistenthash.strategy;
+
+import moe.cnkirito.consistenthash.AbstractHashStrategy;
+import moe.cnkirito.consistenthash.util.Md5Util;
 
 import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
 
 /**
  * @author daofeng.xjf
  * @date 2019/2/16
  */
-public class KetamaHashStrategy implements HashStrategy {
-
-    private static MessageDigest md5Digest;
-
-    static {
-        try {
-            md5Digest = MessageDigest.getInstance("MD5");
-        } catch (NoSuchAlgorithmException e) {
-            throw new RuntimeException("MD5 not supported", e);
-        }
-    }
+public class KetamaHashStrategy implements AbstractHashStrategy {
 
     @Override
     public int getHashCode(String origin) {
@@ -35,7 +27,7 @@ public class KetamaHashStrategy implements HashStrategy {
     public static byte[] computeMd5(String k) {
         MessageDigest md5;
         try {
-            md5 = (MessageDigest) md5Digest.clone();
+            md5 = (MessageDigest) Md5Util.MD5_DIGEST.clone();
         } catch (CloneNotSupportedException e) {
             throw new RuntimeException("clone of MD5 not supported", e);
         }

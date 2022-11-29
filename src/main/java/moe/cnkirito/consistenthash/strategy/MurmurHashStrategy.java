@@ -1,4 +1,6 @@
-package moe.cnkirito.consistenthash;
+package moe.cnkirito.consistenthash.strategy;
+
+import moe.cnkirito.consistenthash.AbstractHashStrategy;
 
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
@@ -7,7 +9,9 @@ import java.nio.ByteOrder;
  * @author daofeng.xjf
  * @date 2019/2/16
  */
-public class MurmurHashStrategy implements HashStrategy {
+public class MurmurHashStrategy implements AbstractHashStrategy {
+    private static final Integer BUFF_SIZE = 8;
+
     @Override
     public int getHashCode(String origin) {
 
@@ -23,7 +27,7 @@ public class MurmurHashStrategy implements HashStrategy {
         long h = seed ^ (buf.remaining() * m);
 
         long k;
-        while (buf.remaining() >= 8) {
+        while (buf.remaining() >= BUFF_SIZE) {
             k = buf.getLong();
 
             k *= m;
@@ -37,8 +41,8 @@ public class MurmurHashStrategy implements HashStrategy {
         if (buf.remaining() > 0) {
             ByteBuffer finish = ByteBuffer.allocate(8).order(
                     ByteOrder.LITTLE_ENDIAN);
-            // for big-endian version, do this first:
-            // finish.position(8-buf.remaining());
+             /// for big-endian version, do this first:
+             // finish.position(8-buf.remaining());
             finish.put(buf).rewind();
             h ^= finish.getLong();
             h *= m;

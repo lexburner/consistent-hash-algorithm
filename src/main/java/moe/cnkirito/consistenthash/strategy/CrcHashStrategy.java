@@ -1,14 +1,16 @@
-package moe.cnkirito.consistenthash;
+package moe.cnkirito.consistenthash.strategy;
 
-import java.nio.charset.Charset;
+import moe.cnkirito.consistenthash.AbstractHashStrategy;
+
+import java.nio.charset.StandardCharsets;
 
 /**
  * @author daofeng.xjf
  * @date 2019/2/16
  */
-public class CRCHashStrategy implements HashStrategy {
+public class CrcHashStrategy implements AbstractHashStrategy {
 
-    private static final int LOOKUP_TABLE[] = {0x0000, 0x1021, 0x2042, 0x3063,
+    private static final int[] LOOKUP_TABLE = {0x0000, 0x1021, 0x2042, 0x3063,
             0x4084, 0x50A5, 0x60C6, 0x70E7, 0x8108, 0x9129, 0xA14A, 0xB16B,
             0xC18C, 0xD1AD, 0xE1CE, 0xF1EF, 0x1231, 0x0210, 0x3273, 0x2252,
             0x52B5, 0x4294, 0x72F7, 0x62D6, 0x9339, 0x8318, 0xB37B, 0xA35A,
@@ -46,10 +48,10 @@ public class CRCHashStrategy implements HashStrategy {
      * Create a CRC16 checksum from the bytes. implementation is from
      * mp911de/lettuce, modified with some more optimizations
      *
-     * @param bytes
+     * @param bytes 字节数组
      * @return CRC16 as integer value
      */
-    public static int getCRC16(byte[] bytes) {
+    public static int getCrc16(byte[] bytes) {
         int crc = 0x0000;
 
         for (byte b : bytes) {
@@ -58,14 +60,16 @@ public class CRCHashStrategy implements HashStrategy {
         return crc & 0xFFFF;
     }
 
-    public static int getCRC16(String key) {
-        return getCRC16(key.getBytes(Charset.forName("UTF-8")));
+    public static int getCrc16(String key) {
+        return getCrc16(key.getBytes(StandardCharsets.UTF_8));
     }
 
     @Override
     public int getHashCode(String origin) {
-        // optimization with modulo operator with power of 2
-        // equivalent to getCRC16(key) % 16384
-        return getCRC16(origin) & (16384 - 1);
+        /**
+         * optimization with modulo operator with power of
+         * equivalent to getCRC16(key) % 16384
+         */
+        return getCrc16(origin) & (16384 - 1);
     }
 }
